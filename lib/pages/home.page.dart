@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semana3noticias/Models/articles.model.dart';
 import 'package:semana3noticias/Provider/article.provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +11,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ArticleProvider articleProvider = ArticleProvider();
+  late Future<List<Article>> _futureArticles;
+
+  @override
+  void initState() {
+    _futureArticles = articleProvider.getArticles();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +30,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   _body() {
-    var list = articleProvider.getArticles();
-    return Text('Home');
+    return FutureBuilder(
+      future: _futureArticles,
+      builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
+        if (snapshot.hasData) {
+          List<Article>? articles = snapshot.data;
+          List<Widget> list = [];
+
+          for (var article in articles!) {
+            list.add(Text(article.title));
+          }
+          return ListView(children: list);
+        } else {
+          return Text('Cargando...');
+        }
+      },
+    );
   }
 }
