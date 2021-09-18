@@ -35,6 +35,9 @@ dependencies:
   #Library to formats
   intl: ^0.17.0
 
+  #Library to Share
+  flutter_share: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

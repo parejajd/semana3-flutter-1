@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:semana3noticias/Models/articles.model.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class DetailsPage extends StatelessWidget {
   final Article article;
@@ -10,11 +11,12 @@ class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(article.title),
-      ),
-      body: _buildBody(context),
-    );
+        appBar: AppBar(
+          title: Text(article.title),
+        ),
+        body: SingleChildScrollView(
+          child: _buildBody(context),
+        ));
   }
 
   _buildBody(BuildContext context) {
@@ -25,6 +27,20 @@ class DetailsPage extends StatelessWidget {
           child: Container(
             child: Column(
               children: <Widget>[
+                Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: share,
+                          child: Icon(
+                            Icons.share,
+                            color: Colors.blue,
+                          ),
+                        )
+                      ],
+                    )),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Text(
@@ -66,6 +82,15 @@ class DetailsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Text(article.description),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(article.content),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child:
+                      Text("Fuente:${article.source.name}, Via:${article.url}"),
                 )
               ],
             ),
@@ -76,5 +101,13 @@ class DetailsPage extends StatelessWidget {
         )
       ],
     );
+  }
+
+  Future<void> share() async {
+    await FlutterShare.share(
+        title: article.title,
+        text: article.description,
+        linkUrl: article.url,
+        chooserTitle: 'Comparto contigo esta noticia: ${article.title}');
   }
 }
