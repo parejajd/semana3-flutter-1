@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:semana3noticias/Models/articles.model.dart';
 import 'package:semana3noticias/Provider/article.provider.dart';
+import 'package:semana3noticias/Widgets/card.widget.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -35,14 +36,14 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot) {
         if (snapshot.hasData) {
           List<Article>? articles = snapshot.data;
-          List<Widget> list = [];
+          List<CardWidget> list = [];
 
           for (var article in articles!) {
-            list.add(Text(article.title));
+            list.add(CardWidget(article: article));
           }
           return ListView(children: list);
         } else {
-          return Text('Cargando...');
+          return Center(child: CircularProgressIndicator());
         }
       },
     );

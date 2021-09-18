@@ -26,6 +26,7 @@ class ArticleProvider {
 
       jsonResponse['articles']
           .forEach((element) => list.add(Article.fromJson(element)));
+      print('Request finalized: ${list.length}.');
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
