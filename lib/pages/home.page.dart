@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semana3noticias/Provider/article.provider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -8,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ArticleProvider articleProvider = ArticleProvider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _body() {
+    var list = articleProvider.getArticles();
     return Text('Home');
   }
 }
